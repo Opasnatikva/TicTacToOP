@@ -13,7 +13,7 @@ class TicTacToe:
         self.active_player = PIECE_ONE
 
     def __call__(self):
-        self.game_loop()
+        self.play_game()
 
     def __str__(self):
         output_str = " " * 4
@@ -30,7 +30,7 @@ class TicTacToe:
     def change_player(self):
         self.active_player = PIECE_TWO if self.active_player == PIECE_ONE else PIECE_ONE
 
-    def player_input(self):
+    def take_player_input(self):
         while True:
             input_value = input("Please select a row and a column to place the " + self.active_player + "!").upper()
             if len(input_value) != 2:  # Input needs to be 2 characters long
@@ -46,7 +46,7 @@ class TicTacToe:
 
     def place_piece(self):
         while True:  # Call input until value provided is valid for the board state
-            row_index, col_index = self.player_input()
+            row_index, col_index = self.take_player_input()
             if self.board[row_index][col_index] == EMPTY_SQUARE:
                 self.board[row_index][col_index] = self.active_player
                 break
@@ -72,14 +72,14 @@ class TicTacToe:
         all_lines.append(self.get_diagonal(self.board[::-1]))
         return all_lines
 
-    def win_con(self, lines):
+    def check_win_con(self, lines):
         for line in lines:
             if line.count(self.active_player) == 3:
                 print(self)
                 print(self.active_player + " wins!")
                 return True
 
-    def board_full(self):
+    def check_board_full(self):
         for row in self.board:
             if row.count(EMPTY_SQUARE) != 0:
                 return False
@@ -87,15 +87,16 @@ class TicTacToe:
         print("Draw!")
         return True
 
-    def game_loop(self):
+    def play_game(self):
         while True:
             print(self)
             self.place_piece()
-            if self.win_con(self.get_all_lines()) or self.board_full():
+            if self.check_win_con(self.get_all_lines()) or self.check_board_full():
                 break
             self.change_player()
 
 
 if __name__ == "__main__" == __name__:
-    TicTacToe()()
+    game = TicTacToe()
+    game()
 
