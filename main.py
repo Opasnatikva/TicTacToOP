@@ -113,7 +113,7 @@ class TicTacToe:
             print(self)
             self.place_piece()
             if self.check_win_con(self.get_all_lines()) or self.check_board_full():
-                break
+                return f"{self.active_player} wins!"
             self.change_player()
 
 
